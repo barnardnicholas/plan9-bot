@@ -1,0 +1,30 @@
+{
+  "name": "test-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node listen.js",
+    "nodemon-start": "nodemon listen.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "nodemon": "^2.0.1"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "express": "^4.17.1",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-extract-frames": "^2.0.2",
+    "firebase": "^7.14.6",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs": "0.0.1-security",
+    "image-downloader": "^4.0.1",
+    "path": "^0.12.7",
+    "twit": "^2.2.11"
+  }
+}
