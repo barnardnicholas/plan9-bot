@@ -1,2 +1,4 @@
 node_modules
-/auth/*
+/auth/firebase-auth.js
+/auth/twitter-config.js
+/auth/user-auth.js
