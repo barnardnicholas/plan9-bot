@@ -493,8 +493,8 @@ const startSchedule = (cronInterval) => {
 // ---------------------------------- INVOCATIONS ----------------------------------
 
 // MAIN EVENT - Start Scheduler - Choose ONE
-// startSchedule(cronSchedules.everyMinute); // Debug
 startSchedule(cronSchedules.every3Hours); // ACTUAL TIMEFRAME
+// startSchedule(cronSchedules.everyMinute); // Debug
 // startSchedule(cronSchedules.every6Hours);
 
 // Perform Post once - debug only
