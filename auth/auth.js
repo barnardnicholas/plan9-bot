@@ -1,6 +1,12 @@
-const { twitterConfig } = require("./twitter-config");
-const { firebaseConfig } = require("./firebase-auth");
-const { userConfig } = require("./user-auth");
+// Debug - local auth variables
+// const { twitterConfig } = require("./twitter-config");
+// const { firebaseConfig } = require("./firebase-auth");
+// const { userConfig } = require("./user-auth");
+
+// Deploy - environment auth variables
+const { twitterConfig } = require("./twitter-dummy");
+const { firebaseConfig } = require("./firebase-dummy");
+const { userConfig } = require("./user-dummy");
 
 const twitterEnv = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY || twitterConfig.consumer_key,

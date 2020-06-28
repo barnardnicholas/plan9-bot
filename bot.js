@@ -1,7 +1,7 @@
 const fs = require("fs");
-const path = require("path");
+// const path = require("path");
 const Twit = require("twit");
-const download = require("image-downloader");
+// const download = require("image-downloader");
 const timestamp = require("timestamp");
 const cron = require("node-cron");
 const Subtitle = require("subtitle");
