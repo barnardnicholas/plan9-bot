@@ -1,3 +1,4 @@
+const listener - require('./listen.js')
 const fs = require("fs");
 // const path = require("path");
 const Twit = require("twit");
@@ -511,6 +512,10 @@ startSchedule(cronSchedules.every3Hours); // ACTUAL TIMEFRAME
 //   .catch((err) => {
 //     console.log("Error" + err);
 //   });
+
+// ---------------------------------- SERVER START ----------------------------------
+
+listener();
 
 // ---------------------------------- DANGER ZONE ----------------------------------
 
