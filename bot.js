@@ -1,4 +1,4 @@
-const listener - require('./listen.js')
+const listener = require("./listen.js");
 const fs = require("fs");
 // const path = require("path");
 const Twit = require("twit");
@@ -494,8 +494,8 @@ const startSchedule = (cronInterval) => {
 // ---------------------------------- INVOCATIONS ----------------------------------
 
 // MAIN EVENT - Start Scheduler - Choose ONE
-startSchedule(cronSchedules.every3Hours); // ACTUAL TIMEFRAME
-// startSchedule(cronSchedules.everyMinute); // Debug
+// startSchedule(cronSchedules.every3Hours); // ACTUAL TIMEFRAME
+startSchedule(cronSchedules.everyMinute); // Debug
 // startSchedule(cronSchedules.every6Hours);
 
 // Perform Post once - debug only
