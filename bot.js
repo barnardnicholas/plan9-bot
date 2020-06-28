@@ -36,6 +36,16 @@ const cronSchedules = {
   betweenTheseHours: "0 9-17 * * *",
 };
 
+const hashtags = [
+  "#plan9framebyframe",
+  "#plan9fromouterspace",
+  "#plan9",
+  "#edwood",
+  "#bmovie",
+  "#moviescreening",
+  "#slowscreening",
+];
+
 // Declare Log output
 let logOutput = [];
 
@@ -110,12 +120,12 @@ const getPlayState = () => {
 // Get last post & store locally
 const fetchLastPost = () => {
   appendLog("Fetching last post from database");
-  return database
-    .ref("/state/last_post")
-    .once("value")
-    .then((snapshot) => {
-      return new Promise((resolve, reject) => {
-        if (snapshot.val() !== null) {
+  return new Promise((resolve, reject) => {
+    database
+      .ref("/state/last_post")
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
           appendLog(`Succeeded getting post ${snapshot.val().log_id}`);
           state.lastPost = snapshot.val();
           resolve();
@@ -123,13 +133,38 @@ const fetchLastPost = () => {
           reject(new Error("Failed to fetch last post"));
         }
       });
-    });
+  });
 };
 
 // TODO - Assemble Tweet Status from frame number
 const writeStatus = (frameNumber) => {
-  // returns completed status string
-  return "This is a status";
+  let result = `'Plan 9 from Outer Space' (1959)`;
+  const filteredImageData = imageData.filter((image) => {
+    return image.frameNumber === frameNumber;
+  });
+  if (filteredImageData.length) {
+    if (
+      filteredImageData[0].hasOwnProperty("frameNumber") &&
+      filteredImageData[0].frameNumber
+    ) {
+      result += ` - Frame no. ${frameNumber}`;
+    }
+    // Add movie timestamp - Scrapped due to inaccurate timestamp data
+    // if (
+    //   filteredImageData[0].hasOwnProperty("frameTimeStamp") &&
+    //   filteredImageData[0].frameTimeStamp
+    // ) {
+    //   const formattedDate = new Date(filteredImageData[0].frameTimeStamp);
+
+    //   result += `, ${("00" + (formattedDate.getHours() - 1)).slice(-2)}:${(
+    //     "00" + formattedDate.getMinutes()
+    //   ).slice(-2)}:${("00" + formattedDate.getSeconds()).slice(-2)}`;
+    // }
+  }
+  result +=
+    ", \n Part of 'Plan 9 Frame-by-Frame', a slow movie screening curated by @nickbarnardinc MMXX-MMXXI \n ";
+  result += hashtags.join(" ");
+  return result;
 };
 
 // Find next picture to post and store details locally
@@ -159,6 +194,28 @@ const getNextPicture = () => {
       appendLog(`No results found. Aborting...`);
       reject(new Error(`No results found. Aborting...`));
     }
+  });
+};
+
+// Tweet some text
+const postTweet = (status) => {
+  return new Promise((resolve, reject) => {
+    twitterInstance.post(
+      "statuses/update",
+      { status: status },
+      (err, data, response) => {
+        if (err) {
+          console.log(`ERROR: Failed to post "${status}"`);
+          console.dir(err);
+          reject(err);
+        } else {
+          console.log(`Successfully posted "${status}"`);
+          // console.log("RESPONSE: ", response);
+          // console.log(data);
+          resolve(data);
+        }
+      }
+    );
   });
 };
 
@@ -195,7 +252,7 @@ const postPictureToTwitter = () => {
                 reject(new Error(err));
               } else {
                 appendLog("Image posted successfully");
-                resolve();
+                resolve(data);
               }
             }
           );
@@ -212,7 +269,6 @@ const sendLog = (data) => {
     const time = timestamp();
     const formattedDate = new Date(time).toLocaleString();
     const newData = {
-      ...data,
       frame_timestamp: state.nextPost.frame_timestamp || null,
       image_number: state.nextPost.image_number || null,
       filename: state.nextPost.filename || null,
@@ -225,6 +281,7 @@ const sendLog = (data) => {
       log_id: state.nextPost.log_id || null,
       status: state.nextPost.status || null,
       log_output: logOutput || null,
+      ...data,
     };
     database
       .ref(`/posts/${time}`)
@@ -416,9 +473,11 @@ const masterTaskRunner = () => {
     })
     .catch((err) => {
       if (firebase.auth().currentUser) {
-        sendLog();
+        // sendLog({ comment: "Movie is not playing" });
+        console.log("Movie is not playing");
       }
       console.log(err);
+      resetState();
     });
 };
 
@@ -433,11 +492,25 @@ const startSchedule = (cronInterval) => {
 
 // ---------------------------------- INVOCATIONS ----------------------------------
 
-// Start Scheduler
-startSchedule(cronSchedules.everyMinute);
+// MAIN EVENT - Start Scheduler - Choose ONE
+// startSchedule(cronSchedules.everyMinute); // Debug
+startSchedule(cronSchedules.every3Hours); // ACTUAL TIMEFRAME
+// startSchedule(cronSchedules.every6Hours);
 
 // Perform Post once - debug only
 // masterTaskRunner();
+
+// Tweet text once - debug only
+// userSignIn(userEnv.userEmail, userEnv.userPassword)
+//   .then(() => {
+//     return postTweet(writeStatus(42795));
+//   })
+//   .then(() => {
+//     console.log("Finished");
+//   })
+//   .catch((err) => {
+//     console.log("Error" + err);
+//   });
 
 // ---------------------------------- DANGER ZONE ----------------------------------
 
