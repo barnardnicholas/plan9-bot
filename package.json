@@ -12,10 +12,10 @@
     "fs": "0.0.1-security"
   },
   "dependencies": {
+    "cron": "^1.8.2",
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "firebase": "^7.14.6",
-    "fs": "0.0.1-security",
     "node-cron": "^2.0.3",
     "subtitle": "^2.0.3",
     "timestamp": "0.0.1",
