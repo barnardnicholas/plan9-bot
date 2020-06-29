@@ -1,8 +1,6 @@
 const listener = require("./listen.js");
 const fs = require("fs");
-// const path = require("path");
 const Twit = require("twit");
-// const download = require("image-downloader");
 const timestamp = require("timestamp");
 const cron = require("node-cron");
 const Subtitle = require("subtitle");
@@ -495,7 +493,7 @@ const startSchedule = (cronInterval) => {
 
 // MAIN EVENT - Start Scheduler - Choose ONE
 // startSchedule(cronSchedules.every3Hours); // ACTUAL TIMEFRAME
-startSchedule(cronSchedules.everyMinute); // Debug only
+// startSchedule(cronSchedules.everyMinute); // Debug only
 // startSchedule(cronSchedules.every6Hours); // Not used
 
 // Perform Post once - debug only
@@ -515,7 +513,7 @@ startSchedule(cronSchedules.everyMinute); // Debug only
 
 // ---------------------------------- SERVER START ----------------------------------
 
-listener();
+// listener();
 
 // ---------------------------------- DANGER ZONE ----------------------------------
 
@@ -528,3 +526,5 @@ listener();
 // userSignIn(userEnv.userEmail, userEnv.userPassword).then(() => {
 //   _eraseAllPosts();
 // });
+
+module.exports = { masterTaskRunner };

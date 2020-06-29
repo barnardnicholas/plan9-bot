@@ -2,11 +2,13 @@
 // const { twitterConfig } = require("./twitter-config");
 // const { firebaseConfig } = require("./firebase-auth");
 // const { userConfig } = require("./user-auth");
+// const { serverConfig } = require("./server-config.js");
 
 // Deploy - environment auth variables
 const { twitterConfig } = require("./twitter-dummy");
 const { firebaseConfig } = require("./firebase-dummy");
 const { userConfig } = require("./user-dummy");
+const { serverConfig } = require("./server-dummy.js");
 
 const twitterEnv = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY || twitterConfig.consumer_key,
@@ -34,4 +36,8 @@ const userEnv = {
   userPassword: process.env.FB_USER_PASSWORD || userConfig.userPassword,
 };
 
-module.exports = { twitterEnv, firebaseEnv, userEnv };
+const serverEnv = {
+  serverKey: process.env.SERVER_KEY || serverConfig.server_key,
+};
+
+module.exports = { twitterEnv, firebaseEnv, userEnv, serverEnv };
