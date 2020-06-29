@@ -1,5 +1,6 @@
 const serverConfig = {
-  server_key: null,
+  username: null,
+  password: null,
 };
 
 module.exports = {

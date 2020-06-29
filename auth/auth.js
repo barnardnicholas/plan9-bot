@@ -37,7 +37,8 @@ const userEnv = {
 };
 
 const serverEnv = {
-  serverKey: process.env.SERVER_KEY || serverConfig.server_key,
+  username: process.env.SERVER_USERNAME || serverConfig.username,
+  password: process.env.SERVER_KEY || serverConfig.password,
 };
 
 module.exports = { twitterEnv, firebaseEnv, userEnv, serverEnv };

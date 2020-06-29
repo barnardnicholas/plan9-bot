@@ -1,20 +1,26 @@
 const express = require("express");
+const basicAuth = require("express-basic-auth");
 const server = express();
 const { masterTaskRunner } = require("./bot.js");
 
 // Auth variables
 const { serverEnv } = require("./auth/auth");
 
-// Include JSON
-server.use(express.json());
+// Include Auth
+server.use(basicAuth({ authorizer: myAuthorizer }));
+
+function myAuthorizer(username, password) {
+  const userMatches = basicAuth.safeCompare(username, serverEnv.username);
+  const passwordMatches = basicAuth.safeCompare(password, serverEnv.password);
+
+  return userMatches & passwordMatches;
+}
 
 server.get("/", (req, res) => {
-  if (req.body.server_key === serverEnv.serverKey) {
-    masterTaskRunner();
-    return res.send("Success");
-  } else {
-    return res.send("Error - invalid key");
-  }
+  console.log("Authorized:");
+  console.log(req.headers);
+  masterTaskRunner();
+  return res.send("Success");
 });
 
 const { PORT = 9090 } = process.env;
