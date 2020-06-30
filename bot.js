@@ -370,6 +370,9 @@ const resetState = () => {
   state.nextPost = { ...state.lastPost };
   logOutput = [];
   console.log("Finished!");
+  return new Promise((resolve, reject) => {
+    resolve();
+  });
 };
 
 // Add entry to log and log to console
@@ -512,8 +515,6 @@ const startSchedule = (cronInterval) => {
 //   });
 
 // ---------------------------------- SERVER START ----------------------------------
-
-// listener();
 
 // ---------------------------------- DANGER ZONE ----------------------------------
 
