@@ -77,6 +77,7 @@ let state = {
     log_id: 0,
     status: "",
     log_output: [],
+    tweet_url: "",
   },
   isPlaying: false,
 };
@@ -250,7 +251,10 @@ const postPictureToTwitter = () => {
                 appendLog(err);
                 reject(new Error(err));
               } else {
-                appendLog("Image posted successfully");
+                appendLog(
+                  `Image posted successfully to ${data.entities.urls[0].expanded_url}`
+                );
+                state.nextPost.tweet_url = data.entities.urls[0].expanded_url;
                 resolve(data);
               }
             }
@@ -279,6 +283,7 @@ const sendLog = (data) => {
       log_date: formattedDate || null,
       log_id: state.nextPost.log_id || null,
       status: state.nextPost.status || null,
+      tweet_url: state.nextPost.tweet_url || null,
       log_output: logOutput || null,
       ...data,
     };
@@ -389,7 +394,7 @@ const _eraseAllPosts = () => {
     const newData = {
       date_last_erased: time,
     };
-    database.ref(`/posts`).set(newData);
+    database.ref(`/state`).set(newData);
     const newPostRef = database.ref(`/posts`);
     newPostRef.on("value", (snapshot) => {
       console.log(snapshot.val());
